@@ -2,6 +2,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ModuleListScreen from './src/screens/ModuleListScreen';
+import ModuleViewScreen from './src/screens/ModuleViewScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,6 +21,14 @@ export default function App() {
           component={ModuleListScreen}
           options={{ title: 'Modules' }}
         />
+
+        {/* 2. Register the new screen here! */}
+        <Stack.Screen
+          name="ModuleViewScreen"
+          component={ModuleViewScreen}
+          options={{ title: 'Module View' }}
+        />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
