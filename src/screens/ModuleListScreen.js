@@ -9,12 +9,12 @@ import { Button, ButtonTray } from '../components/UI/Button';
 LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
 
 const ModuleListScreen = ({ navigation }) => {
-    // State -------------------------------
+    // State 
     const [modules, setModules] = useState(initialModules);
 
-    // Handlers ----------------------------
+    // Handlers 
 
-    // --- DELETE LOGIC (Activity 8) ---
+    // DELETE LOGIC (Activity 8) 
     const handleDelete = (moduleToDelete) => {
         setModules(modules.filter((module) => module.ModuleCode !== moduleToDelete.ModuleCode));
     };
@@ -24,7 +24,7 @@ const ModuleListScreen = ({ navigation }) => {
         navigation.goBack();
     };
 
-    // --- ADD LOGIC (Activity 9) ---
+    // ADD LOGIC (Activity 9 & 10) 
     const handleAdd = (module) => {
         setModules([...modules, module]);
     };
@@ -38,12 +38,25 @@ const ModuleListScreen = ({ navigation }) => {
         navigation.navigate('ModuleAddScreen', { onAdd });
     };
 
-    // --- VIEW LOGIC (Activity 6 & 8) ---
-    const handleSelect = (module) => {
-        navigation.navigate('ModuleViewScreen', { module, onDelete });
+    // MODIFY LOGIC (Activity 11/Update) 
+    const handleModify = (updatedModule) => {
+        // Map through modules. If the code matches, replace it with the new updatedModule data.
+        setModules(modules.map((m) => (m.ModuleCode === updatedModule.ModuleCode ? updatedModule : m)));
     };
 
-    // View --------------------------------
+    const onModify = (module) => {
+        handleModify(module);
+        // Navigate back to the list screen to see the updated changes
+        navigation.navigate('ModuleListScreen');
+    };
+
+    //  VIEW LOGIC (Activity 6) 
+    const handleSelect = (module) => {
+        // Pass the module data AND all our handler functions down to the view screen
+        navigation.navigate('ModuleViewScreen', { module, onDelete, onModify });
+    };
+
+    // View 
     return (
         <Screen>
             <ButtonTray>
