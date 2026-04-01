@@ -1,8 +1,21 @@
-import { StyleSheet, Text, View } from 'react-native';
+// 1. Import Alert from react-native
+import { Alert, StyleSheet, Text, View } from 'react-native';
 import FullWidthImage from 'react-native-fullwidth-image';
 import { Button, ButtonTray } from '../../UI/Button';
 
-const ModuleView = ({ module }) => {
+// 2. Add onDelete to the props
+const ModuleView = ({ module, onDelete }) => {
+
+    // 3. Create the Alert confirmation function
+    const requestDelete = () => Alert.alert(
+        'Delete Warning',
+        `Are you sure you want to delete module ${module.ModuleCode}?`,
+        [
+            { text: 'Cancel' },
+            { text: 'Delete', onPress: () => onDelete(module) } // 4. Call onDelete if confirmed
+        ]
+    );
+
     return (
         <View style={styles.container}>
             <FullWidthImage source={{ uri: module.ModuleImage }} style={styles.image} />
@@ -17,15 +30,17 @@ const ModuleView = ({ module }) => {
                 </Text>
             </View>
 
-            {/* ADD YOUR NEW BUTTONS HERE */}
             <ButtonTray>
                 <Button label="Modify" onClick={() => console.log('Modify clicked')} />
-                <Button label="Delete" onClick={() => console.log('Delete clicked')} />
+                {/* 5. Hook up the requestDelete function to the Delete button */}
+                <Button label="Delete" onClick={requestDelete} />
             </ButtonTray>
 
         </View>
     );
 };
+
+
 
 const styles = StyleSheet.create({
     container: {
